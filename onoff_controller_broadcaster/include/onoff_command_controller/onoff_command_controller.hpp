@@ -20,16 +20,16 @@
 #include <vector>
 
 #include "controller_interface/controller_interface.hpp"
-#include "forward_command_controller/visibility_control.h"
+#include "onoff_command_controller/visibility_control.h"
 #include "rclcpp/subscription.hpp"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 #include "realtime_tools/realtime_buffer.h"
-#include "std_msgs/msg/float64_multi_array.hpp"
+#include "std_msgs/msg/bool.hpp"
 
 namespace onoff_command_controller
 {
-using CmdType = std_msgs::Bool;
+using CmdType = std_msgs::msg::Bool;
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
 /**
@@ -48,7 +48,7 @@ class OnOffCommandController : public controller_interface::ControllerInterface
 {
 public:
   ONOFF_COMMAND_CONTROLLER_PUBLIC
-  ForwardCommandController();
+  OnOffCommandController();
 
   ONOFF_COMMAND_CONTROLLER_PUBLIC
   controller_interface::return_type init(const std::string & controller_name) override;

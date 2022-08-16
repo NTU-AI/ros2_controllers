@@ -18,7 +18,7 @@ using hardware_interface::LoanedCommandInterface;
 OnOffCommandController::OnOffCommandController()
 : controller_interface::ControllerInterface(),
   rt_command_ptr_(nullptr),
-  //joints_command_subscriber_(nullptr)
+  enable_command_subscriber_(nullptr)
 {
 }
 
@@ -50,10 +50,11 @@ controller_interface::return_type OnOffCommandController::init(
 CallbackReturn OnOffCommandController::on_configure(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  enabled_ = node_->get_parameter("enabled");
-
-  if (enabled_.empty())
-  {
+  //auto enabled_param_ = node_->get_parameter("enabled");
+  try{
+    enabled_ = node_->get_parameter("enabled").as_bool();
+  }
+  catch(const std::exception & e){
     RCLCPP_ERROR(get_node()->get_logger(), "'enabled' parameter was empty");
     return CallbackReturn::ERROR;
   }
@@ -102,26 +103,24 @@ OnOffCommandController::state_interface_configuration() const
 
 // Fill ordered_interfaces with references to the matching interfaces
 // in the same order as in joint_names
-template <typename T>
-bool get_ordered_interfaces(
-  std::vector<T> & unordered_interfaces, const std::vector<std::string> & joint_names,
-  const std::string & interface_type, std::vector<std::reference_wrapper<T>> & ordered_interfaces)
-{
-  for (const auto & joint_name : joint_names)
-  {
-    for (auto & command_interface : unordered_interfaces)
-    {
-      if (
-        (command_interface.get_name() == joint_name) &&
-        (command_interface.get_interface_name() == interface_type))
-      {
-        ordered_interfaces.push_back(std::ref(command_interface));
-      }
-    }
-  }
+// template <typename T>
+// bool get_ordered_interfaces(
+//   std::vector<T> & unordered_interfaces, const std::vector<std::string> & joint_names,
+//   const std::string & interface_type, std::vector<std::reference_wrapper<T>> & ordered_interfaces)
+// {
+//     for (auto & command_interface : unordered_interfaces)
+//     {
+//       if (
+//         (command_interface.get_name() == joint_name) &&
+//         (command_interface.get_interface_name() == interface_type))
+//       {
+//         ordered_interfaces.push_back(std::ref(command_interface));
+//       }
+//     }
 
-  return joint_names.size() == ordered_interfaces.size();
-}
+//   //return joint_names.size() == ordered_interfaces.size();
+//   return true;
+// }
 
 CallbackReturn OnOffCommandController::on_activate(
   const rclcpp_lifecycle::State & /*previous_state*/)
@@ -129,16 +128,16 @@ CallbackReturn OnOffCommandController::on_activate(
   //  check if we have all resources defined in the "points" parameter
   //  also verify that we *only* have the resources defined in the "points" parameter
   // std::vector<std::reference_wrapper<LoanedCommandInterface>> ordered_interfaces;
-  if (
-    !get_ordered_interfaces(
-      command_interfaces_, joint_names_, interface_name_, ordered_interfaces) ||
-    command_interfaces_.size() != ordered_interfaces.size())
-  {
-    RCLCPP_ERROR(
-      node_->get_logger(), "Expected %zu position command interfaces, got %zu", joint_names_.size(),
-      ordered_interfaces.size());
-    return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn::ERROR;
-  }
+  // if (
+  //   !get_ordered_interfaces(
+  //     command_interfaces_, joint_names_, interface_name_, ordered_interfaces) ||
+  //   command_interfaces_.size() != ordered_interfaces.size())
+  // {
+  //   RCLCPP_ERROR(
+  //     node_->get_logger(), "Expected %zu position command interfaces, got %zu", joint_names_.size(),
+  //     ordered_interfaces.size());
+  //   return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn::ERROR;
+  // }
 
   //reset command buffer if a command came through callback when controller was inactive
   rt_command_ptr_ = realtime_tools::RealtimeBuffer<std::shared_ptr<CmdType>>(nullptr);
@@ -158,19 +157,19 @@ controller_interface::return_type OnOffCommandController::update()
 {
   auto enable_command = rt_command_ptr_.readFromRT();
 
-  if(enable_command != null){
+  if(!enable_command){
     return controller_interface::return_type::OK;
   }else{
     return controller_interface::return_type::ERROR;
   }
 
   // no command received yet
-  if (!enable_commands || !(*enable_commands))
+  if (!enable_command || !(*enable_command))
   {
     return controller_interface::return_type::OK;
   }
 
-  command_interfaces_.set_value((*enable_commands)->data);
+  command_interfaces_[0].set_value((*enable_command)->data);
 
   // if ((*enable_commands)->data.size() != command_interfaces_.size())
   // {
