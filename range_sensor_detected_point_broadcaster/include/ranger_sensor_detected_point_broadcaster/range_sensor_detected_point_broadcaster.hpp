@@ -24,12 +24,12 @@
 #include <vector>
 
 #include "controller_interface/controller_interface.hpp"
-#include "range_sensor_detected_point_broadcaster/visibility_control.h"
+#include "ranger_sensor_detected_point_broadcaster/visibility_control.h"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 #include "realtime_tools/realtime_publisher.h"
-#include "range_sensor.hpp"
-#include "sensor_msgs/msg/range.hpp"
+#include "ranger_sensor_detected_point_broadcaster/range_sensor_detected_point.hpp"
+#include "ros2_interfaces/msg/range_sensor_detected_point.hpp"
 
 namespace range_sensor_detected_point_broadcaster
 {
@@ -65,8 +65,8 @@ protected:
 
   std::unique_ptr<semantic_components::RangeSensorDetectedPoint> range_sensor_detected_point_;
 
-  using StatePublisher = realtime_tools::RealtimePublisher<geometry_msgs::msg::Vector3>;
-  rclcpp::Publisher<geometry_msgs::msg::Vector3>::SharedPtr sensor_state_publisher_;
+  using StatePublisher = realtime_tools::RealtimePublisher<ros2_interfaces::msg::RangeSensorDetectedPoint>;
+  rclcpp::Publisher<ros2_interfaces::msg::RangeSensorDetectedPoint>::SharedPtr sensor_state_publisher_;
   std::unique_ptr<StatePublisher> realtime_publisher_;
 };
 
