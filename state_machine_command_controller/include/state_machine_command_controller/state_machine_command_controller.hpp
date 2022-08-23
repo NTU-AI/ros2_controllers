@@ -12,77 +12,76 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef ONOFF_COMMAND_CONTROLLER__ONOFF_COMMAND_CONTROLLER_HPP_
-#define ONOFF_COMMAND_CONTROLLER__ONOFF_COMMAND_CONTROLLER_HPP_
+#ifndef STATE_MACHINE_COMMAND_CONTROLLER__STATE_MACHINE_COMMAND_CONTROLLER_HPP_
+#define STATE_MACHINE_COMMAND_CONTROLLER__STATE_MACHINE_COMMAND_CONTROLLER_HPP_
 
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "controller_interface/controller_interface.hpp"
-#include "onoff_command_controller/visibility_control.h"
+#include "state_machine_command_controller/visibility_control.h"
 #include "rclcpp/subscription.hpp"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 #include "realtime_tools/realtime_buffer.h"
-#include "std_msgs/msg/bool.hpp"
+#include "std_msgs/msg/int32.hpp"
 
-namespace onoff_command_controller
+namespace state_machine_command_controller
 {
-using CmdType = std_msgs::msg::Bool;
+using CmdType = std_msgs::msg::Int32;
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
 /**
- * \brief Forward command controller for a set of joints.
+ * \brief State machine command controller for a set of joints.
  *
  * This class forwards the command signal down to a set of joints
  * on the specified interface.
  *
- * \param enabled Names of the joints to control.
+ * \param joints Names of the joints to control.
  * \param interface_name Name of the interface to command.
  *
  * Subscribes to:
- * - \b commands (std_msgs::msg::Float64MultiArray) : The commands to apply.
+ * - \b commands (std_msgs::msg::Int32) : The commands to apply.
  */
-class OnOffCommandController : public controller_interface::ControllerInterface
+class StateMachineCommandController : public controller_interface::ControllerInterface
 {
 public:
-  ONOFF_COMMAND_CONTROLLER_PUBLIC
-  OnOffCommandController();
+  STATE_MACHINE_COMMAND_CONTROLLER_PUBLIC
+  StateMachineCommandController();
 
-  ONOFF_COMMAND_CONTROLLER_PUBLIC
+  STATE_MACHINE_COMMAND_CONTROLLER_PUBLIC
   controller_interface::return_type init(const std::string & controller_name) override;
 
-  ONOFF_COMMAND_CONTROLLER_PUBLIC
+  STATE_MACHINE_COMMAND_CONTROLLER_PUBLIC
   controller_interface::InterfaceConfiguration command_interface_configuration() const override;
 
-  ONOFF_COMMAND_CONTROLLER_PUBLIC
+  STATE_MACHINE_COMMAND_CONTROLLER_PUBLIC
   controller_interface::InterfaceConfiguration state_interface_configuration() const override;
 
-  ONOFF_COMMAND_CONTROLLER_PUBLIC
+  STATE_MACHINE_COMMAND_CONTROLLER_PUBLIC
   CallbackReturn on_configure(const rclcpp_lifecycle::State & previous_state) override;
 
-  ONOFF_COMMAND_CONTROLLER_PUBLIC
+  STATE_MACHINE_COMMAND_CONTROLLER_PUBLIC
   CallbackReturn on_activate(const rclcpp_lifecycle::State & previous_state) override;
 
-  ONOFF_COMMAND_CONTROLLER_PUBLIC
+  STATE_MACHINE_COMMAND_CONTROLLER_PUBLIC
   CallbackReturn on_deactivate(const rclcpp_lifecycle::State & previous_state) override;
 
-  ONOFF_COMMAND_CONTROLLER_PUBLIC
+  STATE_MACHINE_COMMAND_CONTROLLER_PUBLIC
   controller_interface::return_type update() override;
 
 protected:
-  //std::vector<std::string> joint_names_;
-  bool enabled_;
+  int state_;
+  std::string actuator_name_;
   std::string interface_name_;
 
   realtime_tools::RealtimeBuffer<std::shared_ptr<CmdType>> rt_command_ptr_;
-  //rclcpp::Subscription<CmdType>::SharedPtr joints_command_subscriber_;
-  rclcpp::Subscription<CmdType>::SharedPtr enable_command_subscriber_;
+  rclcpp::Subscription<CmdType>::SharedPtr state_command_subscriber_;
 
   std::string logger_name_;
 };
 
-}  // namespace ONOFF_COMMAND_CONTROLLER
+}  // namespace state_machine_command_controller
 
-#endif  // ONOFF_COMMAND_CONTROLLER__ONOFF_COMMAND_CONTROLLER_HPP_
+#endif  // STATE_MACHINE_COMMAND_CONTROLLER__STATE_MACHINE_COMMAND_CONTROLLER_HPP_
