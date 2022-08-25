@@ -16,13 +16,13 @@
  * Authors: Subhas Das, Denis Stogl, Victor Lopez
  */
 
-#include "range_sensor_detected_point_broadcaster/range_sensor_detected_point_broadcaster.hpp"
+#include "ranger_sensor_detected_point_broadcaster/range_sensor_detected_point_broadcaster.hpp"
 
 #include <memory>
 #include <string>
-#include "geometry_msgs/msg/Vector3"
+#include "ros2_interfaces/msg/range_sensor_detected_point.hpp"
 
-namespace range_sensor_broadcaster
+namespace range_sensor_detected_point_broadcaster
 {
 controller_interface::return_type RangeSensorDetectedPointBroadcaster::init(const std::string & controller_name)
 {
@@ -64,13 +64,13 @@ CallbackReturn RangeSensorDetectedPointBroadcaster::on_configure(
     return CallbackReturn::ERROR;
   }
 
-  range_sensor_ =
+  range_sensor_detected_point_ =
     std::make_unique<semantic_components::RangeSensorDetectedPoint>(semantic_components::RangeSensorDetectedPoint(sensor_name_));
   try
   {
     // register ft sensor data publisher
     sensor_state_publisher_ =
-      node_->create_publisher<geometry_msgs::msg::Vector3>("~/prox_sensor_detected_point", rclcpp::SystemDefaultsQoS());
+      node_->create_publisher<ros2_interfaces::msg::RangeSensorDetectedPoint>("~/prox_sensor_detected_point", rclcpp::SystemDefaultsQoS());
     realtime_publisher_ = std::make_unique<StatePublisher>(sensor_state_publisher_);
   }
   catch (const std::exception & e)
@@ -82,7 +82,7 @@ CallbackReturn RangeSensorDetectedPointBroadcaster::on_configure(
   }
 
   realtime_publisher_->lock();
-  realtime_publisher_->msg_.header.frame_id = frame_id_;
+  //realtime_publisher_->msg_.header.frame_id = frame_id_;
   realtime_publisher_->unlock();
 
   RCLCPP_DEBUG(node_->get_logger(), "configure successful");
@@ -102,20 +102,20 @@ controller_interface::InterfaceConfiguration RangeSensorDetectedPointBroadcaster
 {
   controller_interface::InterfaceConfiguration state_interfaces_config;
   state_interfaces_config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
-  state_interfaces_config.names = range_sensor_->get_state_interface_names();
+  state_interfaces_config.names = range_sensor_detected_point_->get_state_interface_names();
   return state_interfaces_config;
 }
 
 CallbackReturn RangeSensorDetectedPointBroadcaster::on_activate(const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  range_sensor_->assign_loaned_state_interfaces(state_interfaces_);
+  range_sensor_detected_point_->assign_loaned_state_interfaces(state_interfaces_);
   return CallbackReturn::SUCCESS;
 }
 
 CallbackReturn RangeSensorDetectedPointBroadcaster::on_deactivate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  range_sensor_->release_interfaces();
+  range_sensor_detected_point_->release_interfaces();
   return CallbackReturn::SUCCESS;
 }
 
@@ -123,17 +123,17 @@ controller_interface::return_type RangeSensorDetectedPointBroadcaster::update()
 {
   if (realtime_publisher_ && realtime_publisher_->trylock())
   {
-    realtime_publisher_->msg_.header.stamp = node_->now();
-    range_sensor_->get_values_as_message(realtime_publisher_->msg_);
+    //realtime_publisher_->msg_.header.stamp = node_->now();
+    range_sensor_detected_point_->get_values_as_message(realtime_publisher_->msg_);
     realtime_publisher_->unlockAndPublish();
   }
 
   return controller_interface::return_type::OK;
 }
 
-}  // namespace range_sensor_broadcaster
+}  // namespace range_sensor_detected_point_broadcaster
 
 #include "pluginlib/class_list_macros.hpp"
 
 PLUGINLIB_EXPORT_CLASS(
-  range_sensor_broadcaster::RangeSensorDetectedPointBroadcaster, controller_interface::ControllerInterface)
+  range_sensor_detected_point_broadcaster::RangeSensorDetectedPointBroadcaster, controller_interface::ControllerInterface)
