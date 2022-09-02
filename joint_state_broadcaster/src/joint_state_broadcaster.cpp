@@ -153,6 +153,7 @@ bool has_any_key(
 
 bool JointStateBroadcaster::init_joint_data()
 {
+  joint_names_.clear();
   // loop in reverse order, this maintains the order of values at retrieval time
   for (auto si = state_interfaces_.crbegin(); si != state_interfaces_.crend(); si++)
   {
