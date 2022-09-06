@@ -131,6 +131,7 @@ JointStateBroadcaster::on_activate(const rclcpp_lifecycle::State & /*previous_st
 rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
 JointStateBroadcaster::on_deactivate(const rclcpp_lifecycle::State & /*previous_state*/)
 {
+  joint_names_.clear();
   return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn::SUCCESS;
 }
 
