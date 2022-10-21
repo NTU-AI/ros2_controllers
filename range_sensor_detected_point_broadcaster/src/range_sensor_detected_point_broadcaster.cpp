@@ -70,7 +70,7 @@ CallbackReturn RangeSensorDetectedPointBroadcaster::on_configure(
   {
     // register ft sensor data publisher
     sensor_state_publisher_ =
-      node_->create_publisher<ros2_interfaces::msg::RangeSensorDetectedPoint>("~/prox_sensor_detected_point", rclcpp::SystemDefaultsQoS());
+      node_->create_publisher<ros2_interfaces::msg::RangeSensorDetectedPoint>("~/" + sensor_name_, rclcpp::SystemDefaultsQoS());
     realtime_publisher_ = std::make_unique<StatePublisher>(sensor_state_publisher_);
   }
   catch (const std::exception & e)
