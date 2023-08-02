@@ -25,6 +25,12 @@ namespace imu_sensor_broadcaster
 {
 controller_interface::return_type IMUSensorBroadcaster::init(const std::string & controller_name)
 {
+  auto ret = ControllerInterface::init(controller_name);
+  if (ret != controller_interface::return_type::OK)
+  {
+    return ret;
+  }
+
   try
   {
     auto_declare<std::string>("sensor_name", "");
