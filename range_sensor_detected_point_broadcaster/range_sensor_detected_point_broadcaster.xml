@@ -1,0 +1,8 @@
+<library path="range_sensor_detected_point_broadcaster">
+  <class name="range_sensor_detected_point_broadcaster/RangeSensorDetectedPointBroadcaster"
+         type="range_sensor_detected_point_broadcaster::RangeSensorDetectedPointBroadcaster" base_class_type="controller_interface::ControllerInterface">
+  <description>
+    This controller publishes the readings of range interfaces as ros2_interface/RangeSensorDetectedPoint message.
+  </description>
+  </class>
+</library>

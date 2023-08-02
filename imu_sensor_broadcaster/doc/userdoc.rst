@@ -1,5 +1,3 @@
-:github_url: https://github.com/ros-controls/ros2_controllers/blob/{REPOS_FILE_BRANCH}/imu_sensor_broadcaster/doc/userdoc.rst
-
 .. _imu_sensor_broadcaster_userdoc:
 
 IMU Sensor Broadcaster
@@ -11,6 +9,10 @@ The controller is a wrapper around ``IMUSensor`` semantic component (see ``contr
 
 Parameters
 ^^^^^^^^^^^
-This controller uses the `generate_parameter_library <https://github.com/PickNikRobotics/generate_parameter_library>`_ to handle its parameters.
+frame_id (mandatory)
+  Frame in which the output message will be published.
 
-.. generate_parameter_library_details:: ../src/imu_sensor_broadcaster_parameters.yaml
+sensor_name (mandatory)
+  Defines sensor name used as prefix for its interfaces.
+  Interface names are: <sensor_name>/orientation.x, ..., <sensor_name>/angular_velocity.x, ...,
+  <sensor_name>/linear_acceleration.x.

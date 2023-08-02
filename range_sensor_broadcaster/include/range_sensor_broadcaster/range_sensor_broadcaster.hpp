@@ -16,55 +16,60 @@
  * Authors: Subhas Das, Denis Stogl, Victor Lopez
  */
 
-#ifndef IMU_SENSOR_BROADCASTER__IMU_SENSOR_BROADCASTER_HPP_
-#define IMU_SENSOR_BROADCASTER__IMU_SENSOR_BROADCASTER_HPP_
+#ifndef RANGE_SENSOR_BROADCASTER__RANGE_SENSOR_BROADCASTER_HPP_
+#define RANGE_SENSOR_BROADCASTER__RANGE_SENSOR_BROADCASTER_HPP_
 
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "controller_interface/controller_interface.hpp"
-#include "imu_sensor_broadcaster/visibility_control.h"
+#include "range_sensor_broadcaster/visibility_control.h"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 #include "realtime_tools/realtime_publisher.h"
-#include "semantic_components/imu_sensor.hpp"
-#include "sensor_msgs/msg/imu.hpp"
+#include "range_sensor.hpp"
+#include "sensor_msgs/msg/range.hpp"
 
-namespace imu_sensor_broadcaster
+namespace range_sensor_broadcaster
 {
-class IMUSensorBroadcaster : public controller_interface::ControllerInterface
+using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
+
+class RangeSensorBroadcaster : public controller_interface::ControllerInterface
 {
 public:
-  IMU_SENSOR_BROADCASTER_PUBLIC
+  RANGE_SENSOR_BROADCASTER_PUBLIC
+  controller_interface::return_type init(const std::string & controller_name) override;
+
+  RANGE_SENSOR_BROADCASTER_PUBLIC
   controller_interface::InterfaceConfiguration command_interface_configuration() const override;
 
-  IMU_SENSOR_BROADCASTER_PUBLIC
+  RANGE_SENSOR_BROADCASTER_PUBLIC
   controller_interface::InterfaceConfiguration state_interface_configuration() const override;
 
-  IMU_SENSOR_BROADCASTER_PUBLIC
+  RANGE_SENSOR_BROADCASTER_PUBLIC
   CallbackReturn on_configure(const rclcpp_lifecycle::State & previous_state) override;
 
-  IMU_SENSOR_BROADCASTER_PUBLIC
+  RANGE_SENSOR_BROADCASTER_PUBLIC
   CallbackReturn on_activate(const rclcpp_lifecycle::State & previous_state) override;
 
-  IMU_SENSOR_BROADCASTER_PUBLIC
+  RANGE_SENSOR_BROADCASTER_PUBLIC
   CallbackReturn on_deactivate(const rclcpp_lifecycle::State & previous_state) override;
 
-  IMU_SENSOR_BROADCASTER_PUBLIC
-  controller_interface::return_type update();
+  RANGE_SENSOR_BROADCASTER_PUBLIC
+  controller_interface::return_type update() override;
 
 protected:
   std::string sensor_name_;
   std::string frame_id_;
 
-  std::unique_ptr<semantic_components::IMUSensor> imu_sensor_;
+  std::unique_ptr<semantic_components::RangeSensor> range_sensor_;
 
-  using StatePublisher = realtime_tools::RealtimePublisher<sensor_msgs::msg::Imu>;
-  rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr sensor_state_publisher_;
+  using StatePublisher = realtime_tools::RealtimePublisher<sensor_msgs::msg::Range>;
+  rclcpp::Publisher<sensor_msgs::msg::Range>::SharedPtr sensor_state_publisher_;
   std::unique_ptr<StatePublisher> realtime_publisher_;
 };
 
-}  // namespace imu_sensor_broadcaster
+}  // namespace range_sensor_broadcaster
 
-#endif  // IMU_SENSOR_BROADCASTER__IMU_SENSOR_BROADCASTER_HPP_
+#endif  // RANGE_SENSOR_BROADCASTER__RANGE_SENSOR_BROADCASTER_HPP_

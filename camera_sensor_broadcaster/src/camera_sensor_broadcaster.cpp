@@ -16,15 +16,21 @@
  * Authors: Subhas Das, Denis Stogl, Victor Lopez
  */
 
-#include "imu_sensor_broadcaster/imu_sensor_broadcaster.hpp"
+#include "camera_sensor_broadcaster/camera_sensor_broadcaster.hpp"
 
 #include <memory>
 #include <string>
 
-namespace imu_sensor_broadcaster
+namespace camera_sensor_broadcaster
 {
-controller_interface::return_type IMUSensorBroadcaster::init(const std::string & controller_name)
+controller_interface::return_type CameraSensorBroadcaster::init(const std::string & controller_name)
 {
+  auto ret = ControllerInterface::init(controller_name);
+  if (ret != controller_interface::return_type::OK)
+  {
+    return ret;
+  }
+
   try
   {
     auto_declare<std::string>("sensor_name", "");
@@ -40,7 +46,7 @@ controller_interface::return_type IMUSensorBroadcaster::init(const std::string &
   return controller_interface::return_type::OK;
 }
 
-CallbackReturn IMUSensorBroadcaster::on_configure(
+CallbackReturn CameraSensorBroadcaster::on_configure(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
   sensor_name_ = node_->get_parameter("sensor_name").as_string();
@@ -57,13 +63,12 @@ CallbackReturn IMUSensorBroadcaster::on_configure(
     return CallbackReturn::ERROR;
   }
 
-  imu_sensor_ =
-    std::make_unique<semantic_components::IMUSensor>(semantic_components::IMUSensor(sensor_name_));
+  camera_sensor_ =
+    std::make_unique<semantic_components::CameraSensor>(semantic_components::CameraSensor(sensor_name_));
   try
   {
     // register ft sensor data publisher
-    sensor_state_publisher_ =
-      node_->create_publisher<sensor_msgs::msg::Imu>("~/imu", rclcpp::SystemDefaultsQoS());
+    sensor_state_publisher_ = node_->create_publisher<sensor_msgs::msg::Image>("~/cam_image", rclcpp::SystemDefaultsQoS());
     realtime_publisher_ = std::make_unique<StatePublisher>(sensor_state_publisher_);
   }
   catch (const std::exception & e)
@@ -82,7 +87,7 @@ CallbackReturn IMUSensorBroadcaster::on_configure(
   return CallbackReturn::SUCCESS;
 }
 
-controller_interface::InterfaceConfiguration IMUSensorBroadcaster::command_interface_configuration()
+controller_interface::InterfaceConfiguration CameraSensorBroadcaster::command_interface_configuration()
   const
 {
   controller_interface::InterfaceConfiguration command_interfaces_config;
@@ -90,43 +95,43 @@ controller_interface::InterfaceConfiguration IMUSensorBroadcaster::command_inter
   return command_interfaces_config;
 }
 
-controller_interface::InterfaceConfiguration IMUSensorBroadcaster::state_interface_configuration()
+controller_interface::InterfaceConfiguration CameraSensorBroadcaster::state_interface_configuration()
   const
 {
   controller_interface::InterfaceConfiguration state_interfaces_config;
   state_interfaces_config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
-  state_interfaces_config.names = imu_sensor_->get_state_interface_names();
+  state_interfaces_config.names = camera_sensor_->get_state_interface_names();
   return state_interfaces_config;
 }
 
-CallbackReturn IMUSensorBroadcaster::on_activate(const rclcpp_lifecycle::State & /*previous_state*/)
+CallbackReturn CameraSensorBroadcaster::on_activate(const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  imu_sensor_->assign_loaned_state_interfaces(state_interfaces_);
+  camera_sensor_->assign_loaned_state_interfaces(state_interfaces_);
   return CallbackReturn::SUCCESS;
 }
 
-CallbackReturn IMUSensorBroadcaster::on_deactivate(
+CallbackReturn CameraSensorBroadcaster::on_deactivate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  imu_sensor_->release_interfaces();
+  camera_sensor_->release_interfaces();
   return CallbackReturn::SUCCESS;
 }
 
-controller_interface::return_type IMUSensorBroadcaster::update()
+controller_interface::return_type CameraSensorBroadcaster::update()
 {
   if (realtime_publisher_ && realtime_publisher_->trylock())
   {
     realtime_publisher_->msg_.header.stamp = node_->now();
-    imu_sensor_->get_values_as_message(realtime_publisher_->msg_);
+    camera_sensor_->get_values_as_message(realtime_publisher_->msg_);
     realtime_publisher_->unlockAndPublish();
   }
 
   return controller_interface::return_type::OK;
 }
 
-}  // namespace imu_sensor_broadcaster
+}  // namespace camera_sensor_broadcaster
 
 #include "pluginlib/class_list_macros.hpp"
 
 PLUGINLIB_EXPORT_CLASS(
-  imu_sensor_broadcaster::IMUSensorBroadcaster, controller_interface::ControllerInterface)
+  camera_sensor_broadcaster::CameraSensorBroadcaster, controller_interface::ControllerInterface)

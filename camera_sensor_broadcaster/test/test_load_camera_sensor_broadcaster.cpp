@@ -26,7 +26,7 @@
 #include "rclcpp/utilities.hpp"
 #include "ros2_control_test_assets/descriptions.hpp"
 
-TEST(TestLoadIMUSensorBroadcaster, load_controller)
+TEST(TestLoadCameraSensorBroadcaster, load_controller)
 {
   rclcpp::init(0, nullptr);
 
@@ -39,7 +39,7 @@ TEST(TestLoadIMUSensorBroadcaster, load_controller)
     executor, "test_controller_manager");
 
   ASSERT_NO_THROW(cm.load_controller(
-    "test_imu_sensor_broadcaster", "imu_sensor_broadcaster/IMUSensorBroadcaster"));
+    "test_camera_sensor_broadcaster", "camera_sensor_broadcaster/CameraSensorBroadcaster"));
 
   rclcpp::shutdown();
 }
