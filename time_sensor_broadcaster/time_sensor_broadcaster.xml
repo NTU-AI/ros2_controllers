@@ -2,7 +2,7 @@
   <class name="time_sensor_broadcaster/TimeSensorBroadcaster"
          type="time_sensor_broadcaster::TimeSensorBroadcaster" base_class_type="controller_interface::ControllerInterface">
   <description>
-    This controller publishes the readings of time interfaces as std_msgs/msg/Float32 message.
+	  This controller publishes the readings of time interfaces as std_msgs/msg/Float32 message.
   </description>
   </class>
 </library>

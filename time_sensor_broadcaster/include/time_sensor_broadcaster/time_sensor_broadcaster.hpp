@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/*
- * Authors: Subhas Das, Denis Stogl, Victor Lopez
- */
+
 
 #ifndef TIME_SENSOR_BROADCASTER__TIME_SENSOR_BROADCASTER_HPP_
 #define TIME_SENSOR_BROADCASTER__TIME_SENSOR_BROADCASTER_HPP_
@@ -23,6 +21,7 @@
 #include <string>
 #include <vector>
 
+#include "time_sensor_broadcaster_parameters.hpp"
 #include "controller_interface/controller_interface.hpp"
 #include "time_sensor_broadcaster/visibility_control.h"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
@@ -32,44 +31,47 @@
 //#include "sensor_msgs/msg/time_reference.hpp"
 #include "std_msgs/msg/float32.hpp"
 
+
 namespace time_sensor_broadcaster
 {
-using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
+  class TimeSensorBroadcaster : public controller_interface::ControllerInterface
+  {
+  public:
 
-class TimeSensorBroadcaster : public controller_interface::ControllerInterface
-{
-public:
-  TIME_SENSOR_BROADCASTER_PUBLIC
-  controller_interface::return_type init(const std::string & controller_name) override;
+    TIME_SENSOR_BROADCASTER_PUBLIC
+    controller_interface::InterfaceConfiguration command_interface_configuration() const override;
 
-  TIME_SENSOR_BROADCASTER_PUBLIC
-  controller_interface::InterfaceConfiguration command_interface_configuration() const override;
+    TIME_SENSOR_BROADCASTER_PUBLIC
+    controller_interface::InterfaceConfiguration state_interface_configuration() const override;
 
-  TIME_SENSOR_BROADCASTER_PUBLIC
-  controller_interface::InterfaceConfiguration state_interface_configuration() const override;
+    TIME_SENSOR_BROADCASTER_PUBLIC
+    controller_interface::CallbackReturn on_init() override;
 
-  TIME_SENSOR_BROADCASTER_PUBLIC
-  CallbackReturn on_configure(const rclcpp_lifecycle::State & previous_state) override;
+    TIME_SENSOR_BROADCASTER_PUBLIC
+    controller_interface::CallbackReturn on_configure(
+      const rclcpp_lifecycle::State & previous_state) override;
 
-  TIME_SENSOR_BROADCASTER_PUBLIC
-  CallbackReturn on_activate(const rclcpp_lifecycle::State & previous_state) override;
+    TIME_SENSOR_BROADCASTER_PUBLIC
+    controller_interface::CallbackReturn on_activate(
+      const rclcpp_lifecycle::State & previous_state) override;
 
-  TIME_SENSOR_BROADCASTER_PUBLIC
-  CallbackReturn on_deactivate(const rclcpp_lifecycle::State & previous_state) override;
+    TIME_SENSOR_BROADCASTER_PUBLIC
+      controller_interface::CallbackReturn on_deactivate(
+        const rclcpp_lifecycle::State & previous_state) override;
 
-  TIME_SENSOR_BROADCASTER_PUBLIC
-  controller_interface::return_type update() override;
+    TIME_SENSOR_BROADCASTER_PUBLIC
+    controller_interface::return_type update(
+      const rclcpp::Time & time, const rclcpp::Duration & period) override;
 
-protected:
-  std::string sensor_name_;
-  std::string frame_id_;
+    protected:
+      std::shared_ptr<ParamListener> param_listener_;
+      Params params_;
 
-  std::unique_ptr<semantic_components::TimeSensor> time_sensor_;
-
-  using StatePublisher = realtime_tools::RealtimePublisher<std_msgs::msg::Float32>;
-  rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr sensor_state_publisher_;
-  std::unique_ptr<StatePublisher> realtime_publisher_;
-};
+      std::unique_ptr<semantic_components::TimeSensor> time_sensor_;
+      using StatePublisher = realtime_tools::RealtimePublisher<std_msgs::msg::Float32>;
+      rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr sensor_state_publisher_;
+      std::unique_ptr<StatePublisher> realtime_publisher_;
+  };
 
 }  // namespace time_sensor_broadcaster
 

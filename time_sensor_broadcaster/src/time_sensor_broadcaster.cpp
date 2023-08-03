@@ -23,53 +23,35 @@
 
 namespace time_sensor_broadcaster
 {
-controller_interface::return_type TimeSensorBroadcaster::init(const std::string & controller_name)
+controller_interface::CallbackReturn TimeSensorBroadcaster::on_init()
 {
-  auto ret = ControllerInterface::init(controller_name);
-  if (ret != controller_interface::return_type::OK)
-  {
-    return ret;
-  }
-
   try
   {
-    auto_declare<std::string>("sensor_name", "");
-    auto_declare<std::string>("frame_id", "");
+    param_listener_ = std::make_shared<ParamListener>(get_node());
+    params_ = param_listener_->get_params();
   }
   catch (const std::exception & e)
   {
     RCLCPP_ERROR(
-      node_->get_logger(), "Exception thrown during init stage with message: %s \n", e.what());
-    return controller_interface::return_type::ERROR;
+      get_node()->get_logger(), "Exception thrown during init stage with message: %s \n", e.what());
+    return CallbackReturn::ERROR;
   }
 
-  return controller_interface::return_type::OK;
+  return CallbackReturn::SUCCESS;
 }
 
-CallbackReturn TimeSensorBroadcaster::on_configure(
+controller_interface::CallbackReturn TimeSensorBroadcaster::on_configure(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  sensor_name_ = node_->get_parameter("sensor_name").as_string();
-  if (sensor_name_.empty())
-  {
-    RCLCPP_ERROR(node_->get_logger(), "'sensor_name' parameter has to be specified.");
-    return CallbackReturn::ERROR;
-  }
+  params_ = param_listener_->get_params();
 
-  frame_id_ = node_->get_parameter("frame_id").as_string();
-  if (frame_id_.empty())
-  {
-    RCLCPP_ERROR(node_->get_logger(), "'frame_id' parameter has to be provided.");
-    return CallbackReturn::ERROR;
-  }
-
-  time_sensor_ =
-    std::make_unique<semantic_components::TimeSensor>(semantic_components::TimeSensor(sensor_name_));
+  time_sensor_ = std::make_unique<semantic_components::TimeSensor>(
+    semantic_components::TimeSensor(params_.sensor_name));
   try
   {
     // register ft sensor data publisher
     sensor_state_publisher_ =
-      node_->create_publisher<std_msgs::msg::Float32>("~/time", rclcpp::SystemDefaultsQoS());
+      get_node()->create_publisher<std_msgs::msg::Float32>("~/time", rclcpp::SystemDefaultsQoS());
     realtime_publisher_ = std::make_unique<StatePublisher>(sensor_state_publisher_);
   }
   catch (const std::exception & e)
@@ -81,10 +63,11 @@ CallbackReturn TimeSensorBroadcaster::on_configure(
   }
 
   realtime_publisher_->lock();
-  //realtime_publisher_->msg_.header.frame_id = frame_id_;
+  // realtime_publisher_->msg_.header.frame_id = params_.frame_id;
+ 
   realtime_publisher_->unlock();
 
-  RCLCPP_DEBUG(node_->get_logger(), "configure successful");
+  RCLCPP_DEBUG(get_node()->get_logger(), "configure successful");
   return CallbackReturn::SUCCESS;
 }
 
@@ -105,24 +88,25 @@ controller_interface::InterfaceConfiguration TimeSensorBroadcaster::state_interf
   return state_interfaces_config;
 }
 
-CallbackReturn TimeSensorBroadcaster::on_activate(const rclcpp_lifecycle::State & /*previous_state*/)
+controller_interface::CallbackReturn TimeSensorBroadcaster::on_activate(
+  const rclcpp_lifecycle::State & /*previous_state*/)
 {
   time_sensor_->assign_loaned_state_interfaces(state_interfaces_);
   return CallbackReturn::SUCCESS;
 }
 
-CallbackReturn TimeSensorBroadcaster::on_deactivate(
+controller_interface::CallbackReturn TimeSensorBroadcaster::on_deactivate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
   time_sensor_->release_interfaces();
   return CallbackReturn::SUCCESS;
 }
 
-controller_interface::return_type TimeSensorBroadcaster::update()
+controller_interface::return_type TimeSensorBroadcaster::update(
+  const rclcpp::Time & time, const rclcpp::Duration & /*period*/)
 {
   if (realtime_publisher_ && realtime_publisher_->trylock())
   {
-    //realtime_publisher_->msg_.header.stamp = node_->now();
     time_sensor_->get_values_as_message(realtime_publisher_->msg_);
     realtime_publisher_->unlockAndPublish();
   }
@@ -130,7 +114,7 @@ controller_interface::return_type TimeSensorBroadcaster::update()
   return controller_interface::return_type::OK;
 }
 
-}  // namespace time_sensor_broadcaster
+}  // namespace imu_sensor_broadcaster
 
 #include "pluginlib/class_list_macros.hpp"
 
