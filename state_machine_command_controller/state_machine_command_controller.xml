@@ -1,0 +1,9 @@
+<library path="state_machine_command_controller">
+  <class name="state_machine_command_controller/StateMachineCommandController"
+         type="state_machine_command_controller::StateMachineCommandController" 
+         base_class_type="controller_interface::ControllerInterface">
+  <description>
+	  The state machine controller commands a group a given interface.
+  </description>
+  </class>
+</library>

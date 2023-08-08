@@ -1,0 +1,28 @@
+state_machine_command_controller:
+  actuator_name: {
+    type: string,
+    default_value: "",
+    description: "Defines sensor name used as prefix for its interfaces.
+    Interface names are: ``<sensor_name>/orientation.x, ..., <sensor_name>/angular_velocity.x, ...,
+    <sensor_name>/linear_acceleration.x.``",
+    validation: {
+      not_empty<>: null
+    }
+  }
+  interface_name: {
+    type: string,
+    default_value: "",
+    description: "Sensor's frame_id in which values are published.",
+    validation: {
+      not_empty<>: null
+    }
+  }
+  state: {
+    type: int,
+    default_value: 0,
+    description: " ",
+    validation: {
+       not_empty<>: null
+    }
+  }
+  
