@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 #ifndef SEMANTIC_COMPONENTS__RANGE_SENSOR_HPP_
 #define SEMANTIC_COMPONENTS__RANGE_SENSOR_HPP_
 
@@ -54,9 +53,7 @@ public:
   uint8_t get_radiation_type()
   {
     size_t interface_offset = 0;
-    // radiation_type_ = state_interfaces_[interface_offset].get().get_int_value();
-    radiation_type_ = static_cast<uint8_t>(state_interfaces_[interface_offset].get().get_value());
-
+    radiation_type_ = state_interfaces_[interface_offset].get().get_int_value();
     return radiation_type_;
   }
 

@@ -1,17 +1,3 @@
-// Copyright 2021 PAL Robotics SL.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 #ifndef SEMANTIC_COMPONENTS__CAMERA_SENSOR_HPP_
 #define SEMANTIC_COMPONENTS__CAMERA_SENSOR_HPP_
 
@@ -60,7 +46,7 @@ public:
   uint32_t get_height()
   {
     size_t interface_offset = 0;
-    height_ = static_cast<int>(state_interfaces_[interface_offset].get().get_value());
+    height_ = (int)state_interfaces_[interface_offset].get().get_int_value();
     return height_;
   }
 
@@ -73,13 +59,13 @@ public:
   uint32_t get_width()
   {
     size_t interface_offset = 1;
-    width_ = static_cast<int>(state_interfaces_[interface_offset].get().get_value());
+    width_ = state_interfaces_[interface_offset].get().get_int_value();
     return width_;
   }
 
   std::string get_encoding(){
     size_t interface_offset = 2;
-    int tmp = static_cast<int>(state_interfaces_[interface_offset].get().get_value());
+    int tmp = state_interfaces_[interface_offset].get().get_int_value();
     // UNKNOWN_PIXEL_FORMAT = 0,
     // L_INT8 = 1,
     // L_INT16 = 2,
@@ -141,29 +127,30 @@ public:
 
   bool is_bigendian(){
     size_t interface_offset = 3;
-    is_bigendian_ = static_cast<int>(state_interfaces_[interface_offset].get().get_value());
+    is_bigendian_ = state_interfaces_[interface_offset].get().get_int_value();
     return is_bigendian_;
   }
 
   uint32_t get_step(){
     size_t interface_offset = 4;
-    step_ = static_cast<int>(state_interfaces_[interface_offset].get().get_value());
+    step_ = state_interfaces_[interface_offset].get().get_int_value();
     return step_;
   }
 
   size_t get_data_size(){
     size_t interface_offset = 5;
-    data_size_ = static_cast<size_t>(state_interfaces_[interface_offset].get().get_value());
+    data_size_ = (size_t) state_interfaces_[interface_offset].get().get_int_value();
     return data_size_;
   }
 
-std::vector<uint8_t> get_data()
-  {
+    //std::vector<float> get_data(){
+  std::vector<unsigned char, std::allocator<unsigned char>> get_data(){
     size_t interface_offset = 6;
-    data_.assign(state_interfaces_[interface_offset].get().get_interface_name().begin(),
-     state_interfaces_[interface_offset].get().get_interface_name().end());
+    data_= state_interfaces_[interface_offset].get().get_str_value();
     return data_;
   }
+
+
   // /// Return orientation.
   // /**
   //  * Return orientation reported by an Camera
@@ -223,7 +210,7 @@ protected:
   std::string encoding_;
   bool is_bigendian_;
   uint32_t step_;
-  std::vector<uint8_t> data_;
+  std::vector<unsigned char, std::allocator<unsigned char>> data_;
   size_t data_size_;
 };
 

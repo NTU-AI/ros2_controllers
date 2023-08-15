@@ -186,8 +186,8 @@ public:
   std::vector<float> get_ranges()
   {
     size_t interface_offset = 9;
-    ranges_.assign(state_interfaces_[interface_offset].get().get_interface_name().begin(),
-     state_interfaces_[interface_offset].get().get_interface_name().end());
+    auto arrayData = state_interfaces_[interface_offset].get().get_array_value();
+    ranges_.assign(arrayData.begin(), arrayData.end());
     return ranges_;
   }
 
@@ -200,8 +200,8 @@ public:
   std::vector<float> get_intensities()
   {
     size_t interface_offset = 10;
-    intensities_.assign(state_interfaces_[interface_offset].get().get_interface_name().begin(),
-     state_interfaces_[interface_offset].get().get_interface_name().end());
+    auto arrayData = state_interfaces_[interface_offset].get().get_array_value();
+    intensities_.assign(arrayData.begin(), arrayData.end());
     return intensities_;
   }
 
@@ -286,4 +286,4 @@ protected:
 
 }  // namespace semantic_components
 
-#endif  // SEMANTIC_COMPONENTS__LIDAR_SENSOR_HPP_
+#endif  // SEMANTIC_COMPONENTS__CAMERA_SENSOR_HPP_

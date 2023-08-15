@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SEMANTIC_COMPONENTS__RANGE_SENSOR_DETECTED_POINT_HPP_
-#define SEMANTIC_COMPONENTS__RANGE_SENSOR_DETECTED_POINT_HPP_
+#ifndef SEMANTIC_COMPONENTS__RANGE_SENSOR_HPP_
+#define SEMANTIC_COMPONENTS__RANGE_SENSOR_HPP_
 
 #include <limits>
 #include <string>
@@ -60,24 +60,22 @@ public:
 
   std::vector<float> get_detected_point(){
     size_t interface_offset = 1;
-    // auto arrayData = state_interfaces_[interface_offset].get().get_array_value();
-    detected_point_.assign(state_interfaces_[interface_offset].get().get_interface_name().begin(),
-     state_interfaces_[interface_offset].get().get_interface_name().end());
+    auto arrayData = state_interfaces_[interface_offset].get().get_array_value();
+    detected_point_.assign(arrayData.begin(), arrayData.end());
     return detected_point_;
   }
 
   int get_handle()
   {
     size_t interface_offset = 2;
-    handle_ = static_cast<int>(state_interfaces_[interface_offset].get().get_value());
+    handle_ = state_interfaces_[interface_offset].get().get_int_value();
     return handle_;
   }
 
   std::vector<float> get_normal_vector(){
     size_t interface_offset = 3;
-    // auto arrayData = state_interfaces_[interface_offset].get().get_array_value();
-     normal_vector_.assign(state_interfaces_[interface_offset].get().get_interface_name().begin(),
-     state_interfaces_[interface_offset].get().get_interface_name().end());
+    auto arrayData = state_interfaces_[interface_offset].get().get_array_value();
+    normal_vector_.assign(arrayData.begin(), arrayData.end());
     return normal_vector_;
   }
 
@@ -114,4 +112,4 @@ protected:
 
 }  // namespace semantic_components
 
-#endif
+#endif  // SEMANTIC_COMPONENTS__CAMERA_SENSOR_HPP_

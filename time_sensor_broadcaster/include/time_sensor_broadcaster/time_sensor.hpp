@@ -62,7 +62,7 @@ public:
     get_seconds();
 
     // update the message values
-    message.data = static_cast<float>(seconds_);
+    message.data = seconds_;
 
     return true;
   }
