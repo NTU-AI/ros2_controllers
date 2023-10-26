@@ -44,6 +44,17 @@ controller_interface::CallbackReturn RangeSensorBroadcaster::on_configure(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
   params_ = param_listener_->get_params();
+  if (params_.sensor_name.empty())
+  {
+    RCLCPP_ERROR(get_node()->get_logger(), "'sensor_name' parameter has to be specified.");
+    return CallbackReturn::ERROR;
+  }
+
+  if (params_.frame_id.empty())
+  {
+    RCLCPP_ERROR(get_node()->get_logger(), "'frame_id' parameter has to be provided.");
+    return CallbackReturn::ERROR;
+  }
 
   range_sensor_ = std::make_unique<semantic_components::RangeSensor>(
     semantic_components::RangeSensor(params_.sensor_name));
@@ -64,14 +75,18 @@ controller_interface::CallbackReturn RangeSensorBroadcaster::on_configure(
 
   realtime_publisher_->lock();
   realtime_publisher_->msg_.header.frame_id = params_.frame_id;
+  realtime_publisher_->msg_.radiation_type = params_.radiation_type;
+  realtime_publisher_->msg_.field_of_view = params_.field_of_view;
+  realtime_publisher_->msg_.min_range = params_.min_range;
+  realtime_publisher_->msg_.max_range = params_.max_range;
   realtime_publisher_->unlock();
 
   RCLCPP_DEBUG(get_node()->get_logger(), "configure successful");
   return CallbackReturn::SUCCESS;
 }
 
-controller_interface::InterfaceConfiguration RangeSensorBroadcaster::command_interface_configuration()
-  const
+controller_interface::InterfaceConfiguration
+RangeSensorBroadcaster::command_interface_configuration() const
 {
   controller_interface::InterfaceConfiguration command_interfaces_config;
   command_interfaces_config.type = controller_interface::interface_configuration_type::NONE;
@@ -106,7 +121,7 @@ controller_interface::return_type RangeSensorBroadcaster::update(
 {
   if (realtime_publisher_ && realtime_publisher_->trylock())
   {
-    realtime_publisher_->msg_.header.stamp = get_node()->now();
+    realtime_publisher_->msg_.header.stamp = time;
     range_sensor_->get_values_as_message(realtime_publisher_->msg_);
     realtime_publisher_->unlockAndPublish();
   }
