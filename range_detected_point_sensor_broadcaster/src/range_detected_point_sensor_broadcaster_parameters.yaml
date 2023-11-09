@@ -1,4 +1,4 @@
-range_sensor_detected_point_broadcaster:
+range_detected_point_sensor_broadcaster:
   sensor_name: {
     type: string,
     default_value: "",

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>range_sensor_detected_point_broadcaster</name>
+  <name>range_detected_point_sensor_broadcaster</name>
   <version>3.12.0</version>
-  <description>Controller to publish state of range sensor detected point.</description>
+  <description>Controller to publish state of range detected point sensor.</description>
   <maintainer email="gilmarcorreiajeronimo@gmail.com">Gilmar Correia</maintainer>
   <maintainer email="joelsonrocha.eng@gmail.com">Joelson Rocha</maintainer>
   <license>TODO: License declaration</license>

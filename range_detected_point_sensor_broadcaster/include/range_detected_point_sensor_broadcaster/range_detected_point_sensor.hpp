@@ -12,22 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SEMANTIC_COMPONENTS__RANGE_SENSOR_HPP_
-#define SEMANTIC_COMPONENTS__RANGE_SENSOR_HPP_
+#ifndef SEMANTIC_COMPONENTS__RANGE_DETECTED_POINT_SENSOR_HPP_
+#define SEMANTIC_COMPONENTS__RANGE_DETECTED_POINT_SENSOR_HPP_
 
 #include <limits>
 #include <string>
 #include <vector>
 
 #include "semantic_components/semantic_component_interface.hpp"
-#include "ros2_interfaces/msg/range_sensor_detected_point.hpp"
+#include "ros2_interfaces/msg/range_detected_point_sensor.hpp"
 
 namespace semantic_components
 {
-class RangeSensorDetectedPoint : public SemanticComponentInterface<ros2_interfaces::msg::RangeSensorDetectedPoint>
+class RangeDetectedPointSensor : public SemanticComponentInterface<ros2_interfaces::msg::RangeDetectedPointSensor>
 {
 public:
-  explicit RangeSensorDetectedPoint(const std::string & name) : SemanticComponentInterface(name, 4)
+  explicit RangeDetectedPointSensor(const std::string & name) : SemanticComponentInterface(name, 4)
   {
     interface_names_.emplace_back(name_ + "/" + "range");
     interface_names_.emplace_back(name_ + "/" + "detected_point");
@@ -49,7 +49,7 @@ public:
     normal_vector_[2] = std::numeric_limits<float>::quiet_NaN();
   }
 
-  virtual ~RangeSensorDetectedPoint() = default;
+  virtual ~RangeDetectedPointSensor() = default;
 
   float get_range()
   {
@@ -79,7 +79,7 @@ public:
     return normal_vector_;
   }
 
-  bool get_values_as_message(ros2_interfaces::msg::RangeSensorDetectedPoint & message)
+  bool get_values_as_message(ros2_interfaces::msg::RangeDetectedPointSensor & message)
   {
     get_range();
     get_detected_point();

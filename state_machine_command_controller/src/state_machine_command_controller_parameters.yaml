@@ -11,15 +11,12 @@ state_machine_command_controller:
   }
   interface_name: {
     type: string,
-    default_value: "",
-    description: "Sensor's frame_id in which values are published.",
-    validation: {
-      not_empty<>: null
-    }
+    default_value: "state",
+    description: "Name of the interface to command",
   }
   state: {
-    type: int,
-    default_value: 0,
+    type: double_array,
+    default_value: [0.0],
     description: " ",
     validation: {
        not_empty<>: null
