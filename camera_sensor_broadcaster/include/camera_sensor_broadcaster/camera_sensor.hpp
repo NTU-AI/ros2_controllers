@@ -13,14 +13,14 @@ namespace semantic_components
 class CameraSensor : public SemanticComponentInterface<sensor_msgs::msg::Image>
 {
 public:
-  explicit CameraSensor(const std::string & name) : SemanticComponentInterface(name, 7)
+  explicit CameraSensor(const std::string & name) : SemanticComponentInterface(name, 6)
   {
     interface_names_.emplace_back(name_ + "/" + "height");
     interface_names_.emplace_back(name_ + "/" + "width");
     interface_names_.emplace_back(name_ + "/" + "encoding");
     interface_names_.emplace_back(name_ + "/" + "is_bigendian");
     interface_names_.emplace_back(name_ + "/" + "step");
-    interface_names_.emplace_back(name_ + "/" + "data_size");
+    //interface_names_.emplace_back(name_ + "/" + "data_size");
     interface_names_.emplace_back(name_ + "/" + "data");
 
     // Set default values to NaN
@@ -31,7 +31,7 @@ public:
     encoding_ = std::numeric_limits<uint32_t>::quiet_NaN();
     is_bigendian_ = std::numeric_limits<uint32_t>::quiet_NaN();
     step_ = std::numeric_limits<uint32_t>::quiet_NaN();
-    data_size_ = std::numeric_limits<uint32_t>::quiet_NaN();
+    //data_size_ = std::numeric_limits<uint32_t>::quiet_NaN();
 
   }
 
@@ -137,15 +137,15 @@ public:
     return step_;
   }
 
-  size_t get_data_size(){
-    size_t interface_offset = 5;
-    data_size_ = (size_t) state_interfaces_[interface_offset].get().get_int_value();
-    return data_size_;
-  }
+  // size_t get_data_size(){
+  //   size_t interface_offset = 5;
+  //   data_size_ = (size_t) state_interfaces_[interface_offset].get().get_int_value();
+  //   return data_size_;
+  // }
 
     //std::vector<float> get_data(){
   std::vector<unsigned char, std::allocator<unsigned char>> get_data(){
-    size_t interface_offset = 6;
+    size_t interface_offset = 5;
     data_= state_interfaces_[interface_offset].get().get_str_value();
     return data_;
   }
@@ -182,7 +182,7 @@ public:
     get_encoding();
     is_bigendian();
     get_step();
-    get_data_size();
+    //get_data_size();
     get_data();
 
     // update the message values, calibration matrices unknown
@@ -191,6 +191,7 @@ public:
     message.encoding = encoding_;
     message.is_bigendian = is_bigendian_;
     message.step = step_;
+    message.data.resize(height_*step_);
     message.data = data_;
     //message.set__data(data_);
     //message.distortion_model = distortion_model_;
@@ -211,7 +212,7 @@ protected:
   bool is_bigendian_;
   uint32_t step_;
   std::vector<unsigned char, std::allocator<unsigned char>> data_;
-  size_t data_size_;
+  //size_t data_size_;
 };
 
 }  // namespace semantic_components
