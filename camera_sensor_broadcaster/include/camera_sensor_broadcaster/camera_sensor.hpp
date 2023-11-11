@@ -191,7 +191,7 @@ public:
     message.encoding = encoding_;
     message.is_bigendian = is_bigendian_;
     message.step = step_;
-    message.data.resize(height_*step_);
+    message.data.clear();
     message.data = data_;
     //message.set__data(data_);
     //message.distortion_model = distortion_model_;
