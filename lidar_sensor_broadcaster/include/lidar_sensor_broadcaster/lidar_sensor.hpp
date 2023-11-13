@@ -36,8 +36,8 @@ public:
     interface_names_.emplace_back(name_ + "/" + "scan_time");
     interface_names_.emplace_back(name_ + "/" + "range_min");
     interface_names_.emplace_back(name_ + "/" + "range_max");
-    interface_names_.emplace_back(name_ + "/" + "ranges_size");
-    interface_names_.emplace_back(name_ + "/" + "intensities_size");
+    //interface_names_.emplace_back(name_ + "/" + "ranges_size");
+    //interface_names_.emplace_back(name_ + "/" + "intensities_size");
     interface_names_.emplace_back(name_ + "/" + "ranges");
     interface_names_.emplace_back(name_ + "/" + "intensities");
     
@@ -51,9 +51,9 @@ public:
     range_max_ = std::numeric_limits<float>::quiet_NaN();
 
     //ranges_init_ = std::numeric_limits<float>::quiet_NaN();
-    ranges_size_ = std::numeric_limits<float>::quiet_NaN();
+    //ranges_size_ = std::numeric_limits<float>::quiet_NaN();
     //intensities_init_ = std::numeric_limits<float>::quiet_NaN();
-    intensities_size_ = std::numeric_limits<float>::quiet_NaN();
+    //intensities_size_ = std::numeric_limits<float>::quiet_NaN();
     //ranges_.fill(ranges_.begin(), ranges_.end(), std::numeric_limits<float>::quiet_NaN());
     //intensities_.fill(intensities_.begin(), intensities_.end(), std::numeric_limits<float>::quiet_NaN());
   }
@@ -151,32 +151,6 @@ public:
     return range_max_;
   }
 
-  /// Return ranges_size
-  /**
-   * Return ranges_size
-   *
-   * \return ranges_size
-   */
-  float get_ranges_size()
-  {
-    size_t interface_offset = 7;
-    ranges_size_ = state_interfaces_[interface_offset].get().get_value();
-    return ranges_size_;
-  }
-
-  /// Return intensities_size
-  /**
-   * Return intensities_size
-   *
-   * \return intensities_size
-   */
-  float get_intensities_size()
-  {
-    size_t interface_offset = 8;
-    intensities_size_ = state_interfaces_[interface_offset].get().get_value();
-    return intensities_size_;
-  }
-
   /// Return ranges_init
   /**
    * Return ranges_init
@@ -185,8 +159,9 @@ public:
    */
   std::vector<float> get_ranges()
   {
-    size_t interface_offset = 9;
+    size_t interface_offset = 7;
     auto arrayData = state_interfaces_[interface_offset].get().get_array_value();
+    ranges_.clear();
     ranges_.assign(arrayData.begin(), arrayData.end());
     return ranges_;
   }
@@ -199,8 +174,9 @@ public:
    */
   std::vector<float> get_intensities()
   {
-    size_t interface_offset = 10;
+    size_t interface_offset = 8;
     auto arrayData = state_interfaces_[interface_offset].get().get_array_value();
+    intensities_.clear();
     intensities_.assign(arrayData.begin(), arrayData.end());
     return intensities_;
   }
@@ -245,8 +221,8 @@ public:
     get_scan_time();
     get_min_range();
     get_max_range();
-    get_ranges_size();
-    get_intensities_size();
+    //get_ranges_size();
+    //get_intensities_size();
     get_ranges();
     get_intensities();
 
@@ -278,8 +254,6 @@ protected:
   float scan_time_;
   float range_min_;
   float range_max_;
-  float ranges_size_;
-  float intensities_size_;
   std::vector<float> ranges_;
   std::vector<float> intensities_;
 };
