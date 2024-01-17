@@ -17,7 +17,7 @@ foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${Dependency} REQUIRED)
 endforeach()
 
-add_library(velocity_controllers SHARED
+add_library(velocity_controllers STATIC
   src/joint_group_velocity_controller.cpp
 )
 target_compile_features(velocity_controllers PUBLIC cxx_std_17)

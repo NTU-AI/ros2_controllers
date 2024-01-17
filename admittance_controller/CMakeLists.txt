@@ -38,7 +38,7 @@ generate_parameter_library(admittance_controller_parameters
   src/admittance_controller_parameters.yaml
 )
 
-add_library(admittance_controller SHARED
+add_library(admittance_controller STATIC
   src/admittance_controller.cpp
 )
 target_compile_features(admittance_controller PUBLIC cxx_std_17)

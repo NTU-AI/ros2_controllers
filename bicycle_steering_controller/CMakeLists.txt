@@ -30,7 +30,7 @@ generate_parameter_library(bicycle_steering_controller_parameters
 
 add_library(
   bicycle_steering_controller
-  SHARED
+  STATIC
   src/bicycle_steering_controller.cpp
 )
 target_compile_features(bicycle_steering_controller PUBLIC cxx_std_17)

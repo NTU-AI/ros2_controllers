@@ -36,7 +36,7 @@ generate_parameter_library(steering_controllers_library_parameters
 
 add_library(
   steering_controllers_library
-  SHARED
+  STATIC
   src/steering_controllers_library.cpp
   src/steering_odometry.cpp
 )

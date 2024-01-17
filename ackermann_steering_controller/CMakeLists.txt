@@ -30,7 +30,7 @@ generate_parameter_library(ackermann_steering_controller_parameters
 
 add_library(
   ackermann_steering_controller
-  SHARED
+  STATIC
   src/ackermann_steering_controller.cpp
 )
 target_compile_features(ackermann_steering_controller PUBLIC cxx_std_17)

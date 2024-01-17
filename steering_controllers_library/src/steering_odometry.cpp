@@ -20,7 +20,7 @@
  */
 
 #include "steering_controllers_library/steering_odometry.hpp"
-
+#define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
 
