@@ -2,6 +2,25 @@
 Changelog for package joint_state_broadcaster
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.35.0 (2024-05-22)
+-------------------
+
+2.34.0 (2024-04-01)
+-------------------
+* Let sphinx add parameter description with nested structures to documentation (backport `#652 <https://github.com/ros-controls/ros2_controllers/issues/652>`_) (`#1005 <https://github.com/ros-controls/ros2_controllers/issues/1005>`_)
+* Contributors: mergify[bot]
+
+2.33.0 (2024-02-12)
+-------------------
+* Add test_depend on `hardware_interface_testing` (backport `#1018 <https://github.com/ros-controls/ros2_controllers/issues/1018>`_) (`#1019 <https://github.com/ros-controls/ros2_controllers/issues/1019>`_)
+* Add tests for `interface_configuration_type` consistently (`#899 <https://github.com/ros-controls/ros2_controllers/issues/899>`_) (`#1011 <https://github.com/ros-controls/ros2_controllers/issues/1011>`_)
+* Contributors: mergify[bot]
+
+2.32.0 (2024-01-20)
+-------------------
+* Increase test coverage of interface configuration getters (`#856 <https://github.com/ros-controls/ros2_controllers/issues/856>`_) (`#865 <https://github.com/ros-controls/ros2_controllers/issues/865>`_)
+* Contributors: mergify[bot]
+
 2.31.0 (2024-01-11)
 -------------------
 

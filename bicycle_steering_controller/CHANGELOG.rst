@@ -2,6 +2,23 @@
 Changelog for package bicycle_steering_controller
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.35.0 (2024-05-22)
+-------------------
+* Add parameter check for geometric values (backport `#1120 <https://github.com/ros-controls/ros2_controllers/issues/1120>`_) (`#1125 <https://github.com/ros-controls/ros2_controllers/issues/1125>`_)
+* Contributors: mergify[bot]
+
+2.34.0 (2024-04-01)
+-------------------
+
+2.33.0 (2024-02-12)
+-------------------
+* Add test_depend on `hardware_interface_testing` (backport `#1018 <https://github.com/ros-controls/ros2_controllers/issues/1018>`_) (`#1019 <https://github.com/ros-controls/ros2_controllers/issues/1019>`_)
+* Add tests for `interface_configuration_type` consistently (`#899 <https://github.com/ros-controls/ros2_controllers/issues/899>`_) (`#1011 <https://github.com/ros-controls/ros2_controllers/issues/1011>`_)
+* Contributors: mergify[bot]
+
+2.32.0 (2024-01-20)
+-------------------
+
 2.31.0 (2024-01-11)
 -------------------
 

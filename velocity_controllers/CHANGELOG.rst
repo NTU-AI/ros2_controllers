@@ -2,6 +2,20 @@
 Changelog for package velocity_controllers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.35.0 (2024-05-22)
+-------------------
+
+2.34.0 (2024-04-01)
+-------------------
+
+2.33.0 (2024-02-12)
+-------------------
+* Add test_depend on `hardware_interface_testing` (backport `#1018 <https://github.com/ros-controls/ros2_controllers/issues/1018>`_) (`#1019 <https://github.com/ros-controls/ros2_controllers/issues/1019>`_)
+* Contributors: mergify[bot]
+
+2.32.0 (2024-01-20)
+-------------------
+
 2.31.0 (2024-01-11)
 -------------------
 

@@ -2,6 +2,36 @@
 Changelog for package joint_trajectory_controller
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.35.0 (2024-05-22)
+-------------------
+* [JTC] Remove unused test code (`#1095 <https://github.com/ros-controls/ros2_controllers/issues/1095>`_) (`#1096 <https://github.com/ros-controls/ros2_controllers/issues/1096>`_)
+* Contributors: mergify[bot]
+
+2.34.0 (2024-04-01)
+-------------------
+* Remove action_msg dependency (`#1077 <https://github.com/ros-controls/ros2_controllers/issues/1077>`_) (`#1080 <https://github.com/ros-controls/ros2_controllers/issues/1080>`_)
+* [JTC] Angle wraparound for first segment of trajectory (`#796 <https://github.com/ros-controls/ros2_controllers/issues/796>`_) (`#1033 <https://github.com/ros-controls/ros2_controllers/issues/1033>`_)
+* Bump version of pre-commit hooks (`#1073 <https://github.com/ros-controls/ros2_controllers/issues/1073>`_) (`#1074 <https://github.com/ros-controls/ros2_controllers/issues/1074>`_)
+* Let sphinx add parameter description with nested structures to documentation (backport `#652 <https://github.com/ros-controls/ros2_controllers/issues/652>`_) (`#1005 <https://github.com/ros-controls/ros2_controllers/issues/1005>`_)
+* Contributors: mergify[bot]
+
+2.33.0 (2024-02-12)
+-------------------
+* Fix usage of M_PI on Windows (`#1036 <https://github.com/ros-controls/ros2_controllers/issues/1036>`_) (`#1037 <https://github.com/ros-controls/ros2_controllers/issues/1037>`_)
+* Add test_depend on `hardware_interface_testing` (backport `#1018 <https://github.com/ros-controls/ros2_controllers/issues/1018>`_) (`#1019 <https://github.com/ros-controls/ros2_controllers/issues/1019>`_)
+* Add tests for `interface_configuration_type` consistently (`#899 <https://github.com/ros-controls/ros2_controllers/issues/899>`_) (`#1011 <https://github.com/ros-controls/ros2_controllers/issues/1011>`_)
+* [JTC] Fill action error_strings (`#887 <https://github.com/ros-controls/ros2_controllers/issues/887>`_) (`#1009 <https://github.com/ros-controls/ros2_controllers/issues/1009>`_)
+* [JTC] Invalidate empty trajectory messages (`#902 <https://github.com/ros-controls/ros2_controllers/issues/902>`_) (`#1000 <https://github.com/ros-controls/ros2_controllers/issues/1000>`_)
+* Revert "[JTC] Remove read_only from 'joints', 'state_interfaces' and 'command_interfaces' parameters (`#967 <https://github.com/ros-controls/ros2_controllers/issues/967>`_)" (`#978 <https://github.com/ros-controls/ros2_controllers/issues/978>`_) (`#986 <https://github.com/ros-controls/ros2_controllers/issues/986>`_)
+* Contributors: mergify[bot]
+
+2.32.0 (2024-01-20)
+-------------------
+* Cleanup package.xml und clarify tests of JTC. (backport `#889 <https://github.com/ros-controls/ros2_controllers/issues/889>`_) (`#924 <https://github.com/ros-controls/ros2_controllers/issues/924>`_)
+* [JTC] Remove deprecation from parameters validation file. (`#476 <https://github.com/ros-controls/ros2_controllers/issues/476>`_) (`#926 <https://github.com/ros-controls/ros2_controllers/issues/926>`_)
+* [JTC] Cancel goal in on_deactivate (`#962 <https://github.com/ros-controls/ros2_controllers/issues/962>`_) (`#970 <https://github.com/ros-controls/ros2_controllers/issues/970>`_)
+* Contributors: mergify[bot]
+
 2.31.0 (2024-01-11)
 -------------------
 * [JTC] Remove read_only from 'joints', 'state_interfaces' and 'command_interfaces' parameters (`#967 <https://github.com/ros-controls/ros2_controllers/issues/967>`_) (`#968 <https://github.com/ros-controls/ros2_controllers/issues/968>`_)
