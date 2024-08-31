@@ -28,7 +28,7 @@ foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${Dependency} REQUIRED)
 endforeach()
 
-add_library(tricycle_controller STATIC
+add_library(tricycle_controller SHARED
   src/tricycle_controller.cpp
   src/odometry.cpp
   src/traction_limiter.cpp
