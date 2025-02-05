@@ -24,6 +24,7 @@
 #include <string>
 #include <vector>
 
+#include "admittance_controller/admittance_controller_parameters.hpp"
 #include "control_msgs/msg/admittance_controller_state.hpp"
 #include "control_toolbox/filters.hpp"
 #include "controller_interface/controller_interface.hpp"
@@ -70,10 +71,11 @@ struct AdmittanceState
     mass_inv.setZero();
     stiffness.setZero();
     selected_axes.setZero();
-    current_joint_pos = Eigen::VectorXd::Zero(num_joints);
-    joint_pos = Eigen::VectorXd::Zero(num_joints);
-    joint_vel = Eigen::VectorXd::Zero(num_joints);
-    joint_acc = Eigen::VectorXd::Zero(num_joints);
+    auto idx = static_cast<Eigen::Index>(num_joints);
+    current_joint_pos = Eigen::VectorXd::Zero(idx);
+    joint_pos = Eigen::VectorXd::Zero(idx);
+    joint_vel = Eigen::VectorXd::Zero(idx);
+    joint_acc = Eigen::VectorXd::Zero(idx);
   }
 
   Eigen::VectorXd current_joint_pos;

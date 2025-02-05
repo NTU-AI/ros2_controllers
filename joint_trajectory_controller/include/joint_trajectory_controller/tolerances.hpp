@@ -36,7 +36,7 @@
 #include <vector>
 
 #include "control_msgs/action/follow_joint_trajectory.hpp"
-#include "joint_trajectory_controller_parameters.hpp"
+#include "joint_trajectory_controller/joint_trajectory_controller_parameters.hpp"
 
 #include "rclcpp/node.hpp"
 #include "rclcpp/time.hpp"
@@ -136,7 +136,7 @@ double resolve_tolerance_source(const double default_value, const double goal_va
   // * -1 - The tolerance is "erased".
   //        If there was a default, the joint will be allowed to move without restriction.
   constexpr double ERASE_VALUE = -1.0;
-  auto is_erase_value = [](double value)
+  auto is_erase_value = [=](double value)
   { return fabs(value - ERASE_VALUE) < std::numeric_limits<float>::epsilon(); };
 
   if (goal_value > 0.0)
@@ -202,7 +202,7 @@ SegmentTolerances get_segment_tolerances(
           .c_str());
       return default_tolerances;
     }
-    auto i = std::distance(joints.cbegin(), it);
+    auto i = static_cast<size_t>(std::distance(joints.cbegin(), it));
     std::string interface = "";
     try
     {
@@ -249,7 +249,7 @@ SegmentTolerances get_segment_tolerances(
           .c_str());
       return default_tolerances;
     }
-    auto i = std::distance(joints.cbegin(), it);
+    auto i = static_cast<size_t>(std::distance(joints.cbegin(), it));
     std::string interface = "";
     try
     {
