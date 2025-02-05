@@ -28,12 +28,10 @@
 #include "hardware_interface/handle.hpp"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
-#include "realtime_tools/realtime_buffer.h"
-#include "realtime_tools/realtime_publisher.h"
+#include "realtime_tools/realtime_buffer.hpp"
+#include "realtime_tools/realtime_publisher.hpp"
 #include "std_srvs/srv/set_bool.hpp"
-#include "steering_controllers_library/steering_odometry.hpp"
 #include "steering_controllers_library/visibility_control.h"
-#include "steering_controllers_library_parameters.hpp"
 
 // TODO(anyone): Replace with controller specific messages
 #include "ackermann_msgs/msg/ackermann_drive_stamped.hpp"
@@ -42,6 +40,9 @@
 #include "geometry_msgs/msg/twist_stamped.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "tf2_msgs/msg/tf_message.hpp"
+
+#include "steering_controllers_library/steering_controllers_library_parameters.hpp"
+#include "steering_controllers_library/steering_odometry.hpp"
 
 namespace steering_controllers_library
 {
@@ -86,7 +87,7 @@ public:
   using ControllerTwistReferenceMsg = geometry_msgs::msg::TwistStamped;
   using ControllerStateMsgOdom = nav_msgs::msg::Odometry;
   using ControllerStateMsgTf = tf2_msgs::msg::TFMessage;
-  using AckermanControllerState = control_msgs::msg::SteeringControllerStatus;
+  using AckermannControllerState = control_msgs::msg::SteeringControllerStatus;
 
 protected:
   controller_interface::CallbackReturn set_interface_numbers(
@@ -119,10 +120,10 @@ protected:
   /// Odometry:
   steering_odometry::SteeringOdometry odometry_;
 
-  AckermanControllerState published_state_;
+  AckermannControllerState published_state_;
 
-  using ControllerStatePublisher = realtime_tools::RealtimePublisher<AckermanControllerState>;
-  rclcpp::Publisher<AckermanControllerState>::SharedPtr controller_s_publisher_;
+  using ControllerStatePublisher = realtime_tools::RealtimePublisher<AckermannControllerState>;
+  rclcpp::Publisher<AckermannControllerState>::SharedPtr controller_s_publisher_;
   std::unique_ptr<ControllerStatePublisher> controller_state_publisher_;
 
   // name constants for state interfaces
