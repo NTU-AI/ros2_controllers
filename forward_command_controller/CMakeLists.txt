@@ -31,7 +31,7 @@ generate_parameter_library(
   src/multi_interface_forward_command_controller_parameters.yaml
 )
 
-add_library(forward_command_controller STATIC
+add_library(forward_command_controller SHARED
   src/forward_controllers_base.cpp
   src/forward_command_controller.cpp
   src/multi_interface_forward_command_controller.cpp

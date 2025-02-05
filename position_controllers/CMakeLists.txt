@@ -17,7 +17,7 @@ foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${Dependency} REQUIRED)
 endforeach()
 
-add_library(position_controllers STATIC
+add_library(position_controllers SHARED
   src/joint_group_position_controller.cpp
 )
 target_compile_features(position_controllers PUBLIC cxx_std_17)

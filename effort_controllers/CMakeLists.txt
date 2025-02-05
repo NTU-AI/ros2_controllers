@@ -17,7 +17,7 @@ foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${Dependency} REQUIRED)
 endforeach()
 
-add_library(effort_controllers STATIC
+add_library(effort_controllers SHARED
   src/joint_group_effort_controller.cpp
 )
 target_compile_features(effort_controllers PUBLIC cxx_std_17)
