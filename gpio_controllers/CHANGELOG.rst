@@ -2,6 +2,17 @@
 Changelog for package gpio_controllers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.49.0 (2025-07-21)
+-------------------
+
+2.48.0 (2025-07-02)
+-------------------
+
+2.47.0 (2025-06-07)
+-------------------
+* Add missing github_url to rst files (backport `#1717 <https://github.com/ros-controls/ros2_controllers/issues/1717>`_) (`#1718 <https://github.com/ros-controls/ros2_controllers/issues/1718>`_)
+* Contributors: mergify[bot]
+
 2.46.0 (2025-05-17)
 -------------------
 

@@ -2,6 +2,23 @@
 Changelog for package joint_trajectory_controller
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.49.0 (2025-07-21)
+-------------------
+* Fix format (`#1821 <https://github.com/ros-controls/ros2_controllers/issues/1821>`_)
+* [JTC] added time_from_start to action feedback (`#1755 <https://github.com/ros-controls/ros2_controllers/issues/1755>`_)
+* Contributors: Bence Magyar, Michael Wrock
+
+2.48.0 (2025-07-02)
+-------------------
+* Fix atomic variables in JTC (backport `#1749 <https://github.com/ros-controls/ros2_controllers/issues/1749>`_) (`#1765 <https://github.com/ros-controls/ros2_controllers/issues/1765>`_)
+* Contributors: mergify[bot]
+
+2.47.0 (2025-06-07)
+-------------------
+* JTC: Use std::atomic<bool> (backport `#1720 <https://github.com/ros-controls/ros2_controllers/issues/1720>`_) (`#1722 <https://github.com/ros-controls/ros2_controllers/issues/1722>`_)
+* Reset both sec and nanosec in time_from_start (backport `#1709 <https://github.com/ros-controls/ros2_controllers/issues/1709>`_) (`#1710 <https://github.com/ros-controls/ros2_controllers/issues/1710>`_)
+* Contributors: mergify[bot]
+
 2.46.0 (2025-05-17)
 -------------------
 
