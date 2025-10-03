@@ -2,6 +2,18 @@
 Changelog for package joint_trajectory_controller
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.50.1 (2025-10-02)
+-------------------
+* Remove wrong and unnecessary docstrings (backport `#1912 <https://github.com/ros-controls/ros2_controllers/issues/1912>`_) (`#1923 <https://github.com/ros-controls/ros2_controllers/issues/1923>`_)
+* Use auto dependency management for windows workflow (backport `#1917 <https://github.com/ros-controls/ros2_controllers/issues/1917>`_) (`#1921 <https://github.com/ros-controls/ros2_controllers/issues/1921>`_)
+* Contributors: mergify[bot]
+
+2.50.0 (2025-09-12)
+-------------------
+* Preallocate `std::vector` variables for interfaces (backport `#1893 <https://github.com/ros-controls/ros2_controllers/issues/1893>`_) (`#1898 <https://github.com/ros-controls/ros2_controllers/issues/1898>`_)
+* Reset JTC PID's to zero on_activate() (backport `#1840 <https://github.com/ros-controls/ros2_controllers/issues/1840>`_) (`#1843 <https://github.com/ros-controls/ros2_controllers/issues/1843>`_)
+* Contributors: mergify[bot]
+
 2.49.1 (2025-07-31)
 -------------------
 
