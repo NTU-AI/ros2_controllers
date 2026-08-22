@@ -15,7 +15,10 @@
 /*
  * Author: Tony Najjar
  */
+
 #define _USE_MATH_DEFINES
+
+#include <cmath>
 #include <memory>
 #include <queue>
 #include <string>

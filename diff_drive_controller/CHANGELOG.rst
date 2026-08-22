@@ -2,6 +2,29 @@
 Changelog for package diff_drive_controller
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.54.0 (2026-08-10)
+-------------------
+* Allow disabling diff drive command timeout (backport `#2503 <https://github.com/ros-controls/ros2_controllers/issues/2503>`_) (`#2543 <https://github.com/ros-controls/ros2_controllers/issues/2543>`_)
+* Contributors: mergify[bot]
+
+2.53.3 (2026-08-04)
+-------------------
+
+2.53.2 (2026-07-01)
+-------------------
+
+2.53.1 (2026-04-22)
+-------------------
+
+2.53.0 (2026-04-02)
+-------------------
+
+2.52.1 (2026-03-11)
+-------------------
+* Fix the teardown of the diff_drive_controller test (backport `#2183 <https://github.com/ros-controls/ros2_controllers/issues/2183>`_) (`#2184 <https://github.com/ros-controls/ros2_controllers/issues/2184>`_)
+* docs: diff_drive_controller - complete wheel_separation_multiplier description and fix then→than typo (backport `#2108 <https://github.com/ros-controls/ros2_controllers/issues/2108>`_) (`#2119 <https://github.com/ros-controls/ros2_controllers/issues/2119>`_)
+* Contributors: mergify[bot]
+
 2.52.0 (2025-12-31)
 -------------------
 
