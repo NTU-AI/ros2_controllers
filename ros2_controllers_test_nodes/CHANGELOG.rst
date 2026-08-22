@@ -2,6 +2,28 @@
 Changelog for package ros2_controllers_test_nodes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.54.0 (2026-08-10)
+-------------------
+
+2.53.3 (2026-08-04)
+-------------------
+
+2.53.2 (2026-07-01)
+-------------------
+* Add lyrical workflows, update README, and fix gcc-15 issues (backport `#2344 <https://github.com/ros-controls/ros2_controllers/issues/2344>`_) (`#2351 <https://github.com/ros-controls/ros2_controllers/issues/2351>`_)
+* Contributors: mergify[bot]
+
+2.53.1 (2026-04-22)
+-------------------
+
+2.53.0 (2026-04-02)
+-------------------
+
+2.52.1 (2026-03-11)
+-------------------
+* Bump version of pre-commit hooks (backport `#2140 <https://github.com/ros-controls/ros2_controllers/issues/2140>`_) (`#2141 <https://github.com/ros-controls/ros2_controllers/issues/2141>`_)
+* Contributors: mergify[bot]
+
 2.52.0 (2025-12-31)
 -------------------
 

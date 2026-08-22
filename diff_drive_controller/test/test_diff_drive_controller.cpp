@@ -96,6 +96,15 @@ protected:
       controller_name + "/cmd_vel", rclcpp::SystemDefaultsQoS());
   }
 
+  void TearDown() override
+  {
+    // Reset the controller before the fixture is destroyed to ensure the controller's
+    // shutdown transition (which clears loaned interfaces) runs while the underlying
+    // StateInterface/CommandInterface objects are still alive. LoanedStateInterface stores
+    // a const reference (not a shared_ptr), so destruction order matters.
+    controller_.reset();
+  }
+
   static void TearDownTestCase() { rclcpp::shutdown(); }
 
   /// Publish velocity msgs
@@ -570,5 +579,48 @@ TEST_F(TestDiffDriveController, correct_initialization_using_parameters)
 
   state = controller_->get_node()->configure();
   ASSERT_EQ(State::PRIMARY_STATE_INACTIVE, state.id());
+  executor.cancel();
+}
+
+// Regression test for https://github.com/ros-controls/ros2_controllers/issues/440.
+// A cmd_vel_timeout of 0.0 disables timeout-based braking.
+TEST_F(TestDiffDriveController, zero_cmd_vel_timeout_disables_timeout)
+{
+  ASSERT_EQ(
+    InitController(
+      left_wheel_names, right_wheel_names,
+      {rclcpp::Parameter("wheel_separation", 0.4), rclcpp::Parameter("wheel_radius", 1.0),
+       rclcpp::Parameter("cmd_vel_timeout", rclcpp::ParameterValue(0.0))}),
+    controller_interface::return_type::OK);
+
+  rclcpp::executors::SingleThreadedExecutor executor;
+  executor.add_node(controller_->get_node()->get_node_base_interface());
+
+  auto state = controller_->get_node()->configure();
+  ASSERT_EQ(State::PRIMARY_STATE_INACTIVE, state.id());
+  assignResourcesPosFeedback();
+
+  state = controller_->get_node()->activate();
+  ASSERT_EQ(State::PRIMARY_STATE_ACTIVE, state.id());
+
+  waitForSetup();
+
+  const double linear = 1.0;
+  publish(linear, 0.0);
+  controller_->wait_for_twist(executor);
+
+  // Sleep past the historical default timeout and verify the command is still applied.
+  std::this_thread::sleep_for(std::chrono::milliseconds(600));
+  ASSERT_EQ(
+    controller_->update(pub_node->get_clock()->now(), rclcpp::Duration::from_seconds(0.01)),
+    controller_interface::return_type::OK);
+  EXPECT_EQ(linear, left_wheel_vel_cmd_.get_value());
+  EXPECT_EQ(linear, right_wheel_vel_cmd_.get_value());
+
+  state = controller_->get_node()->deactivate();
+  ASSERT_EQ(State::PRIMARY_STATE_INACTIVE, state.id());
+  state = controller_->get_node()->cleanup();
+  ASSERT_EQ(State::PRIMARY_STATE_UNCONFIGURED, state.id());
+
   executor.cancel();
 }

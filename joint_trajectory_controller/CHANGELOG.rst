@@ -2,6 +2,32 @@
 Changelog for package joint_trajectory_controller
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.54.0 (2026-08-10)
+-------------------
+
+2.53.3 (2026-08-04)
+-------------------
+* fix(joint-trajectory-controller): use active tolerances in update step (backport `#2101 <https://github.com/ros-controls/ros2_controllers/issues/2101>`_) (`#2510 <https://github.com/ros-controls/ros2_controllers/issues/2510>`_)
+* Contributors: mergify[bot]
+
+2.53.2 (2026-07-01)
+-------------------
+* fix JTC userdoc YAML indentation and stray quote (backport `#2327 <https://github.com/ros-controls/ros2_controllers/issues/2327>`_) (`#2328 <https://github.com/ros-controls/ros2_controllers/issues/2328>`_)
+* Contributors: mergify[bot]
+
+2.53.1 (2026-04-22)
+-------------------
+
+2.53.0 (2026-04-02)
+-------------------
+* GPL custom validator: Use tl_expected from libexpected-dev instead (backport `#2212 <https://github.com/ros-controls/ros2_controllers/issues/2212>`_) (`#2238 <https://github.com/ros-controls/ros2_controllers/issues/2238>`_)
+* Contributors: mergify[bot]
+
+2.52.1 (2026-03-11)
+-------------------
+* Consistently add <cmath> include with define for windows (backport `#2193 <https://github.com/ros-controls/ros2_controllers/issues/2193>`_) (`#2194 <https://github.com/ros-controls/ros2_controllers/issues/2194>`_)
+* Contributors: mergify[bot]
+
 2.52.0 (2025-12-31)
 -------------------
 * Fill point_before_trajectory with same information as trajectory (backport `#2043 <https://github.com/ros-controls/ros2_controllers/issues/2043>`_) (`#2049 <https://github.com/ros-controls/ros2_controllers/issues/2049>`_)
